@@ -85,7 +85,8 @@ private extension AboutViewController {
         view.addSubview(stackView1)
         stackView1.snp.makeConstraints {
             $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
-            $0.width.equalToSuperview().dividedBy(2)
+            $0.left.equalToSuperview().offset(10)
+            $0.right.equalToSuperview().offset(-10)
             $0.centerX.equalToSuperview()
         }
         stackView1.spacing = 8
@@ -139,7 +140,7 @@ private extension AboutViewController {
         let vCopyrightLabelCenterYAnchor = copyrightLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
         let vCopytightLabelWidthAnchor = copyrightLabel.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 1.65)
         
-        let hLeftAnchor = 
+        let hLeftAnchor =
         
         copyrightLabel.numberOfLines = 0
         copyrightLabel.textAlignment = .center
