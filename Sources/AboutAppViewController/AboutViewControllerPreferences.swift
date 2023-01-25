@@ -28,8 +28,13 @@ public struct AboutViewControllerPreferences {
     }
     
     public struct AboutButton {
-        let url: String
-        let title: String
+        public init(url: String, title: String) {
+            self.url = url
+            self.title = title
+        }
+        
+        public let url: String
+        public let title: String
     }
     
     public typealias AboutButtons = [AboutButton]
