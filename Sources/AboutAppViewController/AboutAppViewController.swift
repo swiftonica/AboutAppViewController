@@ -2,17 +2,19 @@ import UIKit
 import SnapKit
 
 public class AboutViewController: UIViewController {
-//    override func viewWillTransition(
-//        to size: CGSize,
-//        with coordinator: UIViewControllerTransitionCoordinator
-//    ) {
-//        super.viewWillTransition(to: size, with: coordinator)
-//        if UIDevice.current.orientation.isLandscape {
-//
-//        } else {
-//
-//        }
-//    }
+    public override func viewWillTransition(
+        to size: CGSize,
+        with coordinator: UIViewControllerTransitionCoordinator
+    ) {
+        super.viewWillTransition(to: size, with: coordinator)
+        switch UIDevice.current.orientation.isLandscape {
+        case true:
+            self.makeVerticalLayout()
+        
+        case false:
+            self.makeVerticalLayout()
+        }
+    }
     
     public init(preferences: AboutViewControllerPreferences) {
         super.init(nibName: nil, bundle: nil)
@@ -21,6 +23,14 @@ public class AboutViewController: UIViewController {
         
         configureStackView1()
         configureCopyrightLabel()
+        
+        if UIDevice.current.orientation.isLandscape {
+            makeLandscapeLayout()
+        }
+        else {
+            makeVerticalLayout()
+        }
+
         configureStackView2()
         
         fillStackView1Data(preferences: preferences)
@@ -43,20 +53,30 @@ public class AboutViewController: UIViewController {
     
     private let stackView2 = UIStackView()
     
-    private var veritcalConstraints: [NSLayoutConstraint] = []
+    private var verticalConstraints: [NSLayoutConstraint] = []
     private var landscapeConstraints: [NSLayoutConstraint] = []
 }
 
 //MARK - helper functions
 private extension AboutViewController {
-    func deleteAllConstraints() {
-        self.view.constraints.forEach {
-            self.view.removeConstraint($0)
+    func toogleConstraints(isLanscape: Bool) {
+        self.landscapeConstraints.forEach {
+            $0.isActive = isLanscape
+        }
+        self.verticalConstraints.forEach {
+            $0.isActive = !isLanscape
         }
     }
     
-    func makeLandscapeConstraints() {}
-    func makeVerticalConstraints() {}
+    func makeLandscapeLayout() {
+        self.versionLabel.removeFromSuperview()
+        self.view.addSubview(versionLabel)
+        self.toogleConstraints(isLanscape: true)
+    }
+    
+    func makeVerticalLayout() {
+        self.stackView1.addArrangedSubview(versionLabel)
+    }
 }
 
 private extension AboutViewController {
@@ -114,17 +134,20 @@ private extension AboutViewController {
     }
     
     func configureCopyrightLabel() {
-        view.addSubview(copyrightLabel)
-        copyrightLabel.snp.makeConstraints {
-            $0.center.equalToSuperview()
-            $0.width.equalToSuperview().dividedBy(1.65)
-        }
+        let vCopyrightLabelCenterXAnchor = copyrightLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+        let vCopyrightLabelCenterYAnchor = copyrightLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
+        let vCopytightLabelWidthAnchor = copyrightLabel.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 1.65)
+        
         copyrightLabel.numberOfLines = 0
         copyrightLabel.textAlignment = .center
         copyrightLabel.font = .systemFont(ofSize: 12, weight: .regular)
         copyrightLabel.textColor = .secondaryLabel
+        
+        self.verticalConstraints.append(
+            contentsOf: [vCopyrightLabelCenterXAnchor, vCopyrightLabelCenterYAnchor, vCopytightLabelWidthAnchor]
+        )
     }
-    
+
     func configureStackView2() {
         view.addSubview(stackView2)
         stackView2.snp.makeConstraints {
@@ -140,7 +163,6 @@ private extension AboutViewController {
         appImageView.snp.makeConstraints {
             $0.height.width.equalTo(100)
         }
-        
         appImageView.layer.cornerRadius = 20
         appImageView.layer.masksToBounds = true
         versionLabel.font = .systemFont(ofSize: 12, weight: .regular)
