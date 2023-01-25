@@ -1,3 +1,3 @@
 # AboutAppViewController
 
-A description of this package.
+Native-like About App screen for your apps
