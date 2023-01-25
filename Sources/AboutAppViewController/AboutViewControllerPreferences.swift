@@ -9,24 +9,42 @@ import Foundation
 import UIKit
 
 public struct AboutViewControllerPreferences {
-    struct AboutButton {
+    public init(
+        appIcon: UIImage,
+        appName: String,
+        appVersionName: String?,
+        versionNumber: String,
+        build: Int,
+        copyrightText: String,
+        buttons: AboutViewControllerPreferences.AboutButtons?
+    ) {
+        self.appIcon = appIcon
+        self.appName = appName
+        self.appVersionName = appVersionName
+        self.versionNumber = versionNumber
+        self.build = build
+        self.copyrightText = copyrightText
+        self.buttons = buttons
+    }
+    
+    public struct AboutButton {
         let url: String
         let title: String
     }
     
-    typealias AboutButtons = [AboutButton]
+    public typealias AboutButtons = [AboutButton]
 
-    let appIcon: UIImage
-    let appName: String
-    let appVersionName: String?
+    public let appIcon: UIImage
+    public let appName: String
+    public let appVersionName: String?
     
-    let versionNumber: String
-    let build: Int
+    public let versionNumber: String
+    public let build: Int
     
-    let copyrightText: String
-    let buttons: AboutButtons?
+    public let copyrightText: String
+    public let buttons: AboutButtons?
     
-    var appNameAttributedString: NSAttributedString {
+    public var appNameAttributedString: NSAttributedString {
         let font1 = UIFont.systemFont(ofSize: 40, weight: .medium)
         let font2 = UIFont.systemFont(ofSize: 40, weight: .light)
         
