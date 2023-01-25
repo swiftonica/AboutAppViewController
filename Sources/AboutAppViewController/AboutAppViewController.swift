@@ -139,6 +139,8 @@ private extension AboutViewController {
         let vCopyrightLabelCenterYAnchor = copyrightLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
         let vCopytightLabelWidthAnchor = copyrightLabel.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 1.65)
         
+        let hLeftAnchor = 
+        
         copyrightLabel.numberOfLines = 0
         copyrightLabel.textAlignment = .center
         copyrightLabel.font = .systemFont(ofSize: 12, weight: .regular)
