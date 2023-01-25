@@ -75,6 +75,7 @@ private extension AboutViewController {
     }
     
     func makeVerticalLayout() {
+        self.versionLabel.removeFromSuperview()
         self.stackView1.addArrangedSubview(versionLabel)
     }
 }
