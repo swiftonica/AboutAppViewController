@@ -165,7 +165,8 @@ private extension AboutViewController {
     
     func configureStackView1Subviews() {
         appImageView.snp.makeConstraints {
-            $0.height.width.equalTo(100)
+            $0.height.equalTo(self.view.snp.width).dividedBy(4)
+            $0.width.equalTo(self.view.snp.width).dividedBy(4)
         }
         appImageView.layer.cornerRadius = 20
         appImageView.layer.masksToBounds = true
