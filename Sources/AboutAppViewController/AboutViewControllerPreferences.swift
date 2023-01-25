@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-struct AboutViewControllerPreferences {
+public struct AboutViewControllerPreferences {
     struct AboutButton {
         let url: String
         let title: String

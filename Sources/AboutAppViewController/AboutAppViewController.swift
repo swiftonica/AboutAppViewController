@@ -1,7 +1,7 @@
 import UIKit
 import SnapKit
 
-class AboutViewController: UIViewController {
+public class AboutViewController: UIViewController {
 //    override func viewWillTransition(
 //        to size: CGSize,
 //        with coordinator: UIViewControllerTransitionCoordinator
@@ -14,7 +14,7 @@ class AboutViewController: UIViewController {
 //        }
 //    }
     
-    init(preferences: AboutViewControllerPreferences) {
+    public init(preferences: AboutViewControllerPreferences) {
         super.init(nibName: nil, bundle: nil)
         
         view.backgroundColor = .systemBackground
@@ -55,13 +55,8 @@ private extension AboutViewController {
         }
     }
     
-    func makeLandscapeConstraints() {
-        
-    }
-    
-    func makeVerticalConstraints() {
-        
-    }
+    func makeLandscapeConstraints() {}
+    func makeVerticalConstraints() {}
 }
 
 private extension AboutViewController {
