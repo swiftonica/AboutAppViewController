@@ -22,7 +22,12 @@ public class AboutViewController: UIViewController {
         view.backgroundColor = .systemBackground
         
         configureStackView1()
+        
         configureCopyrightLabel()
+        configureVersionLabel()
+        configureIconImageView()
+        
+        addStatelessViews()
         
         if UIDevice.current.orientation.isLandscape {
             makeLandscapeLayout()
@@ -36,7 +41,6 @@ public class AboutViewController: UIViewController {
         fillStackView1Data(preferences: preferences)
         fillStackView2Data(preferences: preferences)
         
-        configureStackView1Subviews()
         copyrightLabel.text = preferences.copyrightText
     }
 
@@ -77,6 +81,58 @@ private extension AboutViewController {
     func makeVerticalLayout() {
         self.versionLabel.removeFromSuperview()
         self.stackView1.addArrangedSubview(versionLabel)
+        self.toogleConstraints(isLanscape: false)
+    }
+    
+    func addStatelessViews() {
+        self.view.addSubview(appImageView)
+        self.view.addSubview(copyrightLabel)
+    }
+}
+
+//MARK: - layoutable views
+private extension AboutViewController {
+    func configureIconImageView() {
+        let vHeight = appImageView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 4)
+        let vWidth = appImageView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 4)
+            
+        let hHeight = appImageView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 4)
+        let hWidth = appImageView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 4)
+        
+        verticalConstraints.append(contentsOf: [vHeight, vWidth])
+        landscapeConstraints.append(contentsOf: [hHeight, hWidth])
+        
+        appImageView.layer.cornerRadius = 20
+        appImageView.layer.masksToBounds = true
+    }
+    
+    func configureVersionLabel() {
+        versionLabel.font = .systemFont(ofSize: 12, weight: .regular)
+        versionLabel.textColor = .secondaryLabel
+        versionLabel.numberOfLines = 0
+        let hLeft = versionLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 10)
+        let hRight = versionLabel.rightAnchor.constraint(equalTo: self.copyrightLabel.leftAnchor, constant: -10)
+        let hTop = versionLabel.topAnchor.constraint(equalTo: self.stackView1.bottomAnchor, constant: 10)
+        self.landscapeConstraints.append(contentsOf: [hLeft, hRight, hTop])
+    }
+    
+    func configureCopyrightLabel() {
+        let vCopyrightLabelCenterXAnchor = copyrightLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+        let vCopyrightLabelCenterYAnchor = copyrightLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
+        let vCopytightLabelWidthAnchor = copyrightLabel.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 1.65)
+        
+        let hRight = copyrightLabel.leftAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10)
+        let hTop = copyrightLabel.topAnchor.constraint(equalTo: self.stackView1.bottomAnchor, constant: 10)
+        
+        copyrightLabel.numberOfLines = 0
+        copyrightLabel.textAlignment = .center
+        copyrightLabel.font = .systemFont(ofSize: 12, weight: .regular)
+        copyrightLabel.textColor = .secondaryLabel
+        
+        self.verticalConstraints.append(
+            contentsOf: [vCopyrightLabelCenterXAnchor, vCopyrightLabelCenterYAnchor, vCopytightLabelWidthAnchor]
+        )
+        self.landscapeConstraints.append(contentsOf: [hRight, hTop])
     }
 }
 
@@ -135,23 +191,6 @@ private extension AboutViewController {
         stackView2.addArrangedSubview(button)
     }
     
-    func configureCopyrightLabel() {
-        let vCopyrightLabelCenterXAnchor = copyrightLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
-        let vCopyrightLabelCenterYAnchor = copyrightLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
-        let vCopytightLabelWidthAnchor = copyrightLabel.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 1.65)
-        
-        let hLeftAnchor =
-        
-        copyrightLabel.numberOfLines = 0
-        copyrightLabel.textAlignment = .center
-        copyrightLabel.font = .systemFont(ofSize: 12, weight: .regular)
-        copyrightLabel.textColor = .secondaryLabel
-        
-        self.verticalConstraints.append(
-            contentsOf: [vCopyrightLabelCenterXAnchor, vCopyrightLabelCenterYAnchor, vCopytightLabelWidthAnchor]
-        )
-    }
-
     func configureStackView2() {
         view.addSubview(stackView2)
         stackView2.snp.makeConstraints {
@@ -161,17 +200,6 @@ private extension AboutViewController {
         }
         stackView2.axis = .vertical
         stackView2.spacing = 12
-    }
-    
-    func configureStackView1Subviews() {
-        appImageView.snp.makeConstraints {
-            $0.height.equalTo(self.view.snp.width).dividedBy(4)
-            $0.width.equalTo(self.view.snp.width).dividedBy(4)
-        }
-        appImageView.layer.cornerRadius = 20
-        appImageView.layer.masksToBounds = true
-        versionLabel.font = .systemFont(ofSize: 12, weight: .regular)
-        versionLabel.textColor = .secondaryLabel
     }
 }
 
