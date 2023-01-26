@@ -171,13 +171,13 @@ private extension AboutAppViewController {
 }
 
 private extension AboutAppViewController {
-    func fillStackView1Data(preferences: AboutViewControllerPreferences) {
+    func fillStackView1Data(preferences: AboutAppViewControllerPreferences) {
         appImageView.image = preferences.appIcon
         appNameLabel.attributedText = preferences.appNameAttributedString
         versionLabel.text = preferences.versionNumber
     }
     
-    func fillStackView2Data(preferences: AboutViewControllerPreferences) {
+    func fillStackView2Data(preferences: AboutAppViewControllerPreferences) {
         guard let buttons = preferences.buttons else { return }
         buttons.forEach {
             self.addButtonToStackView2($0)
@@ -190,7 +190,7 @@ private extension AboutAppViewController {
         }
     }
     
-    func addButtonToStackView2(_ aboutButton: AboutViewControllerPreferences.AboutButton) {
+    func addButtonToStackView2(_ aboutButton: AboutAppViewControllerPreferences.AboutButton) {
         let button = UIButton(configuration: .gray())
         button.setTitle(aboutButton.title, for: .normal)
         button.layer.cornerRadius = 15
