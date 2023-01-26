@@ -123,8 +123,8 @@ private extension AboutAppViewController {
         appImageView.layer.cornerRadius = 20
         appImageView.layer.masksToBounds = true
         
-        appImageView.layer.borderColor = UIColor.black.cgColor
-        appImageView.layer.borderWidth = 1.5
+        appImageView.layer.borderColor = UIColor.darkGray.cgColor
+        appImageView.layer.borderWidth = 0.75
     }
     
     func configureVersionLabel() {
