@@ -123,7 +123,9 @@ private extension AboutAppViewController {
         appImageView.layer.cornerRadius = 20
         appImageView.layer.masksToBounds = true
         
-        appImageView.layer.borderColor = UIColor.darkGray.cgColor
+        let borderColor = UIColor.black
+        borderColor.withAlphaComponent(0.4)
+        appImageView.layer.borderColor = borderColor.cgColor
         appImageView.layer.borderWidth = 0.75
     }
     
