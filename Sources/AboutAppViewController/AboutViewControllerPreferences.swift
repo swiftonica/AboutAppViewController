@@ -50,7 +50,10 @@ public struct AboutViewControllerPreferences {
     public let buttons: AboutButtons?
     
     public var appNameAttributedString: NSAttributedString {
-        let fontSize: CGFloat = 32
+        return self.appNameAttributedString(fontSize: 32)
+    }
+    
+    public func appNameAttributedString(fontSize: CGFloat) -> NSAttributedString {
         let font1 = UIFont.systemFont(ofSize: fontSize, weight: .medium)
         let font2 = UIFont.systemFont(ofSize: fontSize, weight: .light)
         

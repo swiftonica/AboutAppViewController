@@ -9,7 +9,7 @@ public class AboutViewController: UIViewController {
         super.viewWillTransition(to: size, with: coordinator)
         switch UIDevice.current.orientation.isLandscape {
         case true:
-            self.makeVerticalLayout()
+            self.makeLandscapeLayout()
         
         case false:
             self.makeVerticalLayout()
@@ -17,18 +17,17 @@ public class AboutViewController: UIViewController {
     }
     
     public init(preferences: AboutViewControllerPreferences) {
+        self.preferences = preferences
         super.init(nibName: nil, bundle: nil)
         
         view.backgroundColor = .systemBackground
         
         configureStackView1()
-        
         configureCopyrightLabel()
         configureVersionLabel()
         configureIconImageView()
-        
         addStatelessViews()
-        
+
         if UIDevice.current.orientation.isLandscape {
             makeLandscapeLayout()
         }
@@ -37,7 +36,7 @@ public class AboutViewController: UIViewController {
         }
 
         configureStackView2()
-        
+
         fillStackView1Data(preferences: preferences)
         fillStackView2Data(preferences: preferences)
         
@@ -48,13 +47,13 @@ public class AboutViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private let preferences: AboutViewControllerPreferences
+    
     private let stackView1 = UIStackView()
     private let appImageView = UIImageView()
     private let appNameLabel = UILabel()
     private let versionLabel = UILabel()
-    
     private let copyrightLabel = UILabel()
-    
     private let stackView2 = UIStackView()
     
     private var verticalConstraints: [NSLayoutConstraint] = []
@@ -73,19 +72,35 @@ private extension AboutViewController {
     }
     
     func makeLandscapeLayout() {
-        self.versionLabel.removeFromSuperview()
-        self.view.addSubview(versionLabel)
+        self.appImageView.removeFromSuperview()
+        self.view.addSubview(appImageView)
+       
+        self.stackView2.axis = .horizontal
         self.toogleConstraints(isLanscape: true)
+        stackView1.alignment = .fill
+        stackView1.distribution = .fillProportionally
+        copyrightLabel.textAlignment = .left
+        appNameLabel.attributedText = self.preferences.appNameAttributedString(fontSize: 50)
+        stackView1.spacing = 0
     }
     
     func makeVerticalLayout() {
-        self.versionLabel.removeFromSuperview()
-        self.stackView1.addArrangedSubview(versionLabel)
+        self.appImageView.removeFromSuperview()
+        self.stackView1.insertArrangedSubview(appImageView, at: 0)
+        
+        self.stackView2.axis = .vertical
         self.toogleConstraints(isLanscape: false)
+        stackView1.alignment = .center
+        copyrightLabel.textAlignment = .center
+        
+        appNameLabel.attributedText = self.preferences.appNameAttributedString
+        stackView1.spacing = 8
     }
     
     func addStatelessViews() {
-        self.view.addSubview(appImageView)
+        self.view.addSubview(stackView1)
+        self.stackView1.addArrangedSubview(appNameLabel)
+        self.stackView1.addArrangedSubview(versionLabel)
         self.view.addSubview(copyrightLabel)
     }
 }
@@ -93,67 +108,69 @@ private extension AboutViewController {
 //MARK: - layoutable views
 private extension AboutViewController {
     func configureIconImageView() {
+        appImageView.translatesAutoresizingMaskIntoConstraints = false
         let vHeight = appImageView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 4)
         let vWidth = appImageView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 4)
-            
-        let hHeight = appImageView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 4)
-        let hWidth = appImageView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 4)
-        
+
+        let hHeight = appImageView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 3)
+        let hWidth = appImageView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 3)
+        let hTop = appImageView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10)
+        let hLeft = appImageView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 20)
+
         verticalConstraints.append(contentsOf: [vHeight, vWidth])
-        landscapeConstraints.append(contentsOf: [hHeight, hWidth])
+        landscapeConstraints.append(contentsOf: [hHeight, hWidth, hTop, hLeft])
         
         appImageView.layer.cornerRadius = 20
         appImageView.layer.masksToBounds = true
+        
+        appImageView.layer.borderColor = UIColor.black.cgColor
+        appImageView.layer.borderWidth = 1.5
     }
     
     func configureVersionLabel() {
         versionLabel.font = .systemFont(ofSize: 12, weight: .regular)
         versionLabel.textColor = .secondaryLabel
         versionLabel.numberOfLines = 0
-        let hLeft = versionLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 10)
-        let hRight = versionLabel.rightAnchor.constraint(equalTo: self.copyrightLabel.leftAnchor, constant: -10)
-        let hTop = versionLabel.topAnchor.constraint(equalTo: self.stackView1.bottomAnchor, constant: 10)
-        self.landscapeConstraints.append(contentsOf: [hLeft, hRight, hTop])
     }
     
     func configureCopyrightLabel() {
+        copyrightLabel.translatesAutoresizingMaskIntoConstraints = false
         let vCopyrightLabelCenterXAnchor = copyrightLabel.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         let vCopyrightLabelCenterYAnchor = copyrightLabel.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
         let vCopytightLabelWidthAnchor = copyrightLabel.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 1.65)
+        self.verticalConstraints.append(
+            contentsOf: [vCopyrightLabelCenterXAnchor, vCopyrightLabelCenterYAnchor, vCopytightLabelWidthAnchor]
+        )
         
-        let hRight = copyrightLabel.leftAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10)
-        let hTop = copyrightLabel.topAnchor.constraint(equalTo: self.stackView1.bottomAnchor, constant: 10)
+        let hLeft = copyrightLabel.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 20)
+        let hTop = copyrightLabel.topAnchor.constraint(equalTo: self.appImageView.bottomAnchor)
+        let hBottom = copyrightLabel.bottomAnchor.constraint(equalTo: self.stackView2.topAnchor)
+        let hWidth = copyrightLabel.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 2)
+        self.landscapeConstraints.append(contentsOf: [hLeft, hBottom, hWidth, hTop])
         
         copyrightLabel.numberOfLines = 0
         copyrightLabel.textAlignment = .center
         copyrightLabel.font = .systemFont(ofSize: 12, weight: .regular)
         copyrightLabel.textColor = .secondaryLabel
+    }
+    
+    func configureStackView1() {
+        stackView1.translatesAutoresizingMaskIntoConstraints = false
+        let vTop = stackView1.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10)
+        let vLeft = stackView1.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 10)
+        let vRight = stackView1.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -10)
+        self.verticalConstraints.append(contentsOf: [vTop, vLeft, vRight])
+
+        let hTop = stackView1.topAnchor.constraint(equalTo: self.appImageView.topAnchor)
+        let hLeft = stackView1.leftAnchor.constraint(equalTo: self.appImageView.rightAnchor, constant: 10)
+        self.landscapeConstraints.append(contentsOf: [hTop, hLeft])
         
-        self.verticalConstraints.append(
-            contentsOf: [vCopyrightLabelCenterXAnchor, vCopyrightLabelCenterYAnchor, vCopytightLabelWidthAnchor]
-        )
-        self.landscapeConstraints.append(contentsOf: [hRight, hTop])
+        stackView1.spacing = 8
+        stackView1.axis = .vertical
     }
 }
 
 private extension AboutViewController {
-    func configureStackView1() {
-        view.addSubview(stackView1)
-        stackView1.snp.makeConstraints {
-            $0.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
-            $0.left.equalToSuperview().offset(10)
-            $0.right.equalToSuperview().offset(-10)
-            $0.centerX.equalToSuperview()
-        }
-        stackView1.spacing = 8
-        stackView1.alignment = .center
-        stackView1.axis = .vertical
-        
-        stackView1.addArrangedSubview(appImageView)
-        stackView1.addArrangedSubview(appNameLabel)
-        stackView1.addArrangedSubview(versionLabel)
-    }
-    
     func fillStackView1Data(preferences: AboutViewControllerPreferences) {
         appImageView.image = preferences.appIcon
         appNameLabel.attributedText = preferences.appNameAttributedString
@@ -202,4 +219,5 @@ private extension AboutViewController {
         stackView2.spacing = 12
     }
 }
+
 
