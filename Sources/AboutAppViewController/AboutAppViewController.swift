@@ -1,7 +1,7 @@
 import UIKit
 import SnapKit
 
-public class AboutViewController: UIViewController {
+public class AboutAppViewController: UIViewController {
     public override func viewWillTransition(
         to size: CGSize,
         with coordinator: UIViewControllerTransitionCoordinator
@@ -16,7 +16,7 @@ public class AboutViewController: UIViewController {
         }
     }
     
-    public init(preferences: AboutViewControllerPreferences) {
+    public init(preferences: AboutAppViewControllerPreferences) {
         self.preferences = preferences
         super.init(nibName: nil, bundle: nil)
         
@@ -61,7 +61,7 @@ public class AboutViewController: UIViewController {
 }
 
 //MARK - helper functions
-private extension AboutViewController {
+private extension AboutAppViewController {
     func toogleConstraints(isLanscape: Bool) {
         self.landscapeConstraints.forEach {
             $0.isActive = isLanscape
@@ -106,7 +106,7 @@ private extension AboutViewController {
 }
 
 //MARK: - layoutable views
-private extension AboutViewController {
+private extension AboutAppViewController {
     func configureIconImageView() {
         appImageView.translatesAutoresizingMaskIntoConstraints = false
         let vHeight = appImageView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 4)
@@ -170,7 +170,7 @@ private extension AboutViewController {
     }
 }
 
-private extension AboutViewController {
+private extension AboutAppViewController {
     func fillStackView1Data(preferences: AboutViewControllerPreferences) {
         appImageView.image = preferences.appIcon
         appNameLabel.attributedText = preferences.appNameAttributedString

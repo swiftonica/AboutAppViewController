@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-public struct AboutViewControllerPreferences {
+public struct AboutAppViewControllerPreferences {
     public init(
         appIcon: UIImage,
         appName: String,
@@ -16,7 +16,7 @@ public struct AboutViewControllerPreferences {
         versionNumber: String,
         build: Int,
         copyrightText: String,
-        buttons: AboutViewControllerPreferences.AboutButtons?
+        buttons: AboutAppViewControllerPreferences.AboutButtons?
     ) {
         self.appIcon = appIcon
         self.appName = appName
