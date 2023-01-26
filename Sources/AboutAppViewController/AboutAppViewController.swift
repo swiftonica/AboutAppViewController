@@ -47,7 +47,7 @@ public class AboutAppViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private let preferences: AboutViewControllerPreferences
+    private let preferences: AboutAppViewControllerPreferences
     
     private let stackView1 = UIStackView()
     private let appImageView = UIImageView()
