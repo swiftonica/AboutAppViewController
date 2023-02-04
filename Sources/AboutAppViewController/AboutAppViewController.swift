@@ -1,5 +1,4 @@
 import UIKit
-import SnapKit
 
 public class AboutAppViewController: UIViewController {
     public override func viewWillTransition(
@@ -197,9 +196,8 @@ private extension AboutAppViewController {
         button.setTitle(aboutButton.title, for: .normal)
         button.layer.cornerRadius = 15
         button.layer.masksToBounds = true
-        button.snp.makeConstraints {
-            $0.height.equalTo(55)
-        }
+        button.heightAnchor.constraint(equalToConstant: 55).isActive = true
+        
         button.tintColor = .label
         button.addAction(
             .init(handler: { _ in
@@ -212,11 +210,9 @@ private extension AboutAppViewController {
     
     func configureStackView2() {
         view.addSubview(stackView2)
-        stackView2.snp.makeConstraints {
-            $0.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom).offset(-10)
-            $0.left.equalTo(self.view.safeAreaLayoutGuide.snp.left).offset(20)
-            $0.right.equalTo(self.view.safeAreaLayoutGuide.snp.right).offset(-20)
-        }
+        stackView2.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -10).isActive = true
+        stackView2.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
+        stackView2.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: 20).isActive = true
         stackView2.axis = .vertical
         stackView2.spacing = 12
     }

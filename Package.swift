@@ -13,19 +13,11 @@ let package = Package(
             name: "AboutAppViewController",
             targets: ["AboutAppViewController"]),
     ],
-    dependencies: [
-        .package(
-            name: "SnapKit",
-            url: "https://github.com/SnapKit/SnapKit",
-            .upToNextMajor(from: "5.0.1")
-        )
-    ],
+    dependencies: [],
     targets: [
         .target(
             name: "AboutAppViewController",
-            dependencies: [
-                "SnapKit"
-            ]
+            dependencies: []
         ),
         .testTarget(
             name: "AboutAppViewControllerTests",
