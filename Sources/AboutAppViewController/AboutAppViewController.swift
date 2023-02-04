@@ -1,5 +1,13 @@
 import UIKit
 
+/// This Library is full opensource and free to use
+///
+///     version: 1.0
+///
+///     License: MIT License
+///
+/// Created by Jeytery for iOS community with love
+
 public class AboutAppViewController: UIViewController {
     public override func viewWillTransition(
         to size: CGSize,
@@ -123,7 +131,7 @@ private extension AboutAppViewController {
         appImageView.layer.masksToBounds = true
         
         let borderColor = UIColor.black
-        borderColor.withAlphaComponent(0.4)
+        borderColor.withAlphaComponent(0.1)
         appImageView.layer.borderColor = borderColor.cgColor
         appImageView.layer.borderWidth = 0.75
     }
