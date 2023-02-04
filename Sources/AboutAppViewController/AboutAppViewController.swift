@@ -29,11 +29,12 @@ public class AboutAppViewController: UIViewController {
 
         view.backgroundColor = .systemBackground
 
+        addStatelessViews()
+        
         configureStackView1()
         configureCopyrightLabel()
         configureVersionLabel()
         configureIconImageView()
-        addStatelessViews()
 
         if UIDevice.current.orientation.isLandscape {
             makeLandscapeLayout()
