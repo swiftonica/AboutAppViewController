@@ -200,6 +200,7 @@ private extension AboutAppViewController {
     func addButtonToStackView2(_ aboutButton: AboutAppViewControllerPreferences.AboutButton) {
         let button = UIButton(configuration: .gray())
         button.setTitle(aboutButton.title, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 15
         button.layer.masksToBounds = true
         button.heightAnchor.constraint(equalToConstant: 55).isActive = true
@@ -216,7 +217,7 @@ private extension AboutAppViewController {
 
     func configureStackView2() {
         view.addSubview(stackView2)
-        
+        stackView2.translatesAutoresizingMaskIntoConstraints = false
         stackView2.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -10).isActive = true
         stackView2.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
         stackView2.rightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
