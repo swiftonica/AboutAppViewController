@@ -70,12 +70,13 @@ public class AboutAppViewController: UIViewController {
 //MARK - helper functions
 private extension AboutAppViewController {
     func toogleConstraints(isLanscape: Bool) {
-        self.landscapeConstraints.forEach {
-            $0.isActive = isLanscape
-        }
         self.verticalConstraints.forEach {
             $0.isActive = !isLanscape
         }
+        self.landscapeConstraints.forEach {
+            $0.isActive = isLanscape
+        }
+        
     }
 
     func makeLandscapeLayout() {
@@ -130,7 +131,7 @@ private extension AboutAppViewController {
         appImageView.layer.cornerRadius = 20
         appImageView.layer.masksToBounds = true
 
-        appImageView.layer.borderColor = UIColor.black.cgColor
+        appImageView.layer.borderColor = UIColor.black.withAlphaComponent(0.1).cgColor
         appImageView.layer.borderWidth = 1.5
     }
 
