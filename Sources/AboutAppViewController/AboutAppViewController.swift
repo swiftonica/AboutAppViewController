@@ -6,7 +6,10 @@ import UIKit
 ///
 ///     License: MIT License
 ///
+/// [!] iPad is unsupported. Only iPhone in horizontal and portrait
+///
 /// Created by Jeytery for iOS community with love
+
 
 public class AboutAppViewController: UIViewController {
     public override func viewWillTransition(
@@ -14,7 +17,7 @@ public class AboutAppViewController: UIViewController {
         with coordinator: UIViewControllerTransitionCoordinator
     ) {
         super.viewWillTransition(to: size, with: coordinator)
-        switch UIDevice.current.orientation.isLandscape {
+        switch self.isLandscape {
         case true:
             self.makeLandscapeLayout()
 
@@ -28,27 +31,28 @@ public class AboutAppViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
 
         view.backgroundColor = .systemBackground
-
         addStatelessViews()
         
+        // add constraints for both layouts
         configureStackView1()
-        configureCopyrightLabel()
-        configureVersionLabel()
         configureIconImageView()
+        configureVersionLabel()
+        configureCopyrightLabel()
+        
+        configureStackView2()
 
+        // fill data
+        fillStackView1Data(preferences: preferences)
+        fillStackView2Data(preferences: preferences)
+        copyrightLabel.text = preferences.copyrightText
+        
+        // add statefull views and activete constraints
         if UIDevice.current.orientation.isLandscape {
             makeLandscapeLayout()
         }
         else {
             makeVerticalLayout()
         }
-
-        configureStackView2()
-
-        fillStackView1Data(preferences: preferences)
-        fillStackView2Data(preferences: preferences)
-
-        copyrightLabel.text = preferences.copyrightText
     }
 
     required init?(coder: NSCoder) {
@@ -70,14 +74,17 @@ public class AboutAppViewController: UIViewController {
 
 //MARK - helper functions
 private extension AboutAppViewController {
+    var isLandscape: Bool {
+        return UIDevice.current.orientation.isLandscape
+    }
+    
     func toogleConstraints(isLanscape: Bool) {
-        self.verticalConstraints.forEach {
-            $0.isActive = !isLanscape
-        }
         self.landscapeConstraints.forEach {
             $0.isActive = isLanscape
         }
-        
+        self.verticalConstraints.forEach {
+            $0.isActive = !isLanscape
+        }
     }
 
     func makeLandscapeLayout() {
@@ -118,11 +125,21 @@ private extension AboutAppViewController {
 private extension AboutAppViewController {
     func configureIconImageView() {
         appImageView.translatesAutoresizingMaskIntoConstraints = false
-        let vHeight = appImageView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 4)
-        let vWidth = appImageView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 4)
-
-        let hHeight = appImageView.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 3)
-        let hWidth = appImageView.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width / 3)
+        
+        let value: CGFloat
+        
+        if self.isLandscape {
+            value = UIScreen.main.bounds.height
+        }
+        else {
+            value = UIScreen.main.bounds.width
+        }
+        
+        let vHeight = appImageView.heightAnchor.constraint(equalToConstant: value / 4)
+        let vWidth = appImageView.widthAnchor.constraint(equalToConstant: value / 4)
+        
+        let hHeight = appImageView.heightAnchor.constraint(equalToConstant: value / 3)
+        let hWidth = appImageView.widthAnchor.constraint(equalToConstant: value / 3)
         let hTop = appImageView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10)
         let hLeft = appImageView.leftAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leftAnchor, constant: 20)
 
